@@ -2,7 +2,6 @@ package hotel;
 
 class Room {
     private int number;
-    private boolean isRented;
     private Person renter;
 
     Room(int number) {
@@ -10,20 +9,33 @@ class Room {
     }
 
     void rent(Person person) {
-        if (!isRented) {
-            isRented = true;
-            renter = person;
-        }
+        renter = person;
+    }
+
+    void release() {
+        renter = null;
     }
 
     String getRenterSurname() {
-       if (isRented)
+       if (isRented())
            return renter.getSurname();
        throw new NotRentedException();
     }
 
+    boolean isRentedBy(Person person) {
+        return person.equals(renter);
+    }
+
+    boolean isRentedBy(String surname) {
+        return isRented() && surname.equals(renter.getSurname());
+    }
+
     boolean isFree() {
-        return !isRented;
+        return renter == null;
+    }
+
+    boolean isRented() {
+        return !isFree();
     }
 
     public int getNumber() {
