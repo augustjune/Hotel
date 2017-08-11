@@ -1,6 +1,7 @@
 package hotel;
 
 class Room {
+    private int floor;
     private int number;
     private Person renter;
 
@@ -17,9 +18,9 @@ class Room {
     }
 
     String getRenterSurname() {
-       if (isRented())
-           return renter.getSurname();
-       throw new NotRentedException();
+        if (isRented())
+            return renter.getSurname();
+        throw new NotRentedException();
     }
 
     boolean isRentedBy(Person person) {
@@ -38,10 +39,15 @@ class Room {
         return !isFree();
     }
 
+    public int getFloor() {
+        return floor;
+    }
+
     public int getNumber() {
         return number;
     }
 
-    private class NotRentedException extends RuntimeException{
+    private class NotRentedException extends RuntimeException {
+
     }
 }

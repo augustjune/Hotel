@@ -1,6 +1,6 @@
 package hotel;
 
-class Hotel {
+class Hotel implements RoomRenter {
 
     private int roomsCount;
     private Room[] rooms;
@@ -22,14 +22,25 @@ class Hotel {
         return roomsCount;
     }
 
-    boolean hasAnyFreeRoom() {
+    @Override
+    public boolean hasAnyFreeRoom() {
         for (Room room : rooms)
             if (room.isFree())
                 return true;
         return false;
     }
 
-    int rentAny(Person person) {
+    @Override
+    public int getFreeRoomsCount() {
+        int count = 0;
+        for (Room room : rooms)
+            if (room.isFree())
+                count++;
+        return count;
+    }
+
+    @Override
+    public int rentAny(Person person) {
         checkForFreeRoom();
         int roomForRenting = findFirstFreeRoom();
         rooms[roomForRenting].rent(person);
@@ -48,7 +59,8 @@ class Hotel {
         return -1;
     }
 
-    void release(int roomNumber) {
+    @Override
+    public void release(int roomNumber) {
         rooms[roomNumber].release();
     }
 
@@ -59,11 +71,13 @@ class Hotel {
         return false;
     }
 
-    boolean hasFreeRoom(int number) {
+    @Override
+    public boolean hasFreeRoom(int number) {
         return rooms[number].isFree();
     }
 
-    void releaseAll(Person person) {
+    @Override
+    public void releaseAll(Person person) {
         for (Room room : rooms)
             if (room.isRentedBy(person))
                     room.release();
